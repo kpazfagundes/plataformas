@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets"
+        xmlns:gap="http://phonegap.com/ns/1.0"
+        id="org.plataformaskpfc"
+        version="1.0.0">
+    <name >App Plataformas Karine</name>
+    <description>Teste do Phonegap com Bootstrap</description>
+    <icon src="imagens/logo.png"/>
+    <autor href="https://github.com/kpazfagundes" email="kpazfagundes@gmail.com">
+        Karine Paz Fagundes Cordeiro
+    </autor>
+</widget>
