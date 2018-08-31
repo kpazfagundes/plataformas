@@ -14,21 +14,63 @@
             <h1>Plataformas</h1>
         </div>
         <div id="demo"></div>
-        <button class="btn btn-success" onclick="loadDoc()">Ok</button>
+        <button id="txt"class="btn btn-success" onclick="loadDoc('ajax_info.txt')">Carregar txt</button>
+        <button id="doc1"class="btn btn-warning" onclick="loadDoc('page1.html')">Carregar Doc1</button>
+        <button id="doc2"class="btn btn-danger" onclick="loadDoc('page2.html')">Carregar Doc2</button>
     </div>
+    <div id="view"></div>
 </body>
+<script src="filhos.js"></script>
 <script>
-    function loadDoc() {
-        var xhttp = new XMLHttpRequest();
+    function loadDoc(docToLoad) {
+        var xhttp = new XMLHttpRequest();        
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("demo")
-                .innerHTML = this.responseText;
+                document.getElementById("demo").innerHTML = this.responseText;
+                if(docToLoad==='page1.html') loadFilhos();
+                if(docToLoad==='page2.html'){
+                    getJSON('http://localhost:3000/funcionarios', function (data) {
+                        var view = "<ul>\n";
+                            for (var i in data) {
+                                view += '<li>Nome: '+data[i].nome+'<li>\
+                                    <li>Id: '+data[i].id+'<li>\
+                                    <li>Telefone: '+data[i].telefone+'<li>';
+                                        }
+                                        view += "\n</ul>";
+                                        /* procura o elemento através da sua id
+                                        e imprime o conteúdo */
+                                        document.getElementById('view').innerHTML = view;
+                                        
+                                    }, function (errorCode, errorText) {
+                                        console.log('Código: ' + errorCode);
+                                        console.log('Mensagem de erro: ' + errorText);
+                                    });
+
+                }
             }
         };
-        xhttp.open("GET", "ajax_info.txt", true);
-        xhttp.send();
+        xhttp.open("GET", docToLoad, true);
+        xhttp.send();    
     }
-</script>
+    var getJSON = function (url, sucesso, erro) {
+        var httpRequest = new XMLHttpRequest();
+        httpRequest.open("GET", url, true);
+        httpRequest.responseType = "json";
+        httpRequest.addEventListener("readystatechange", function (event) {
+            if (httpRequest.readyState == 4) {
+                if (httpRequest.status == 200) {
+                    if (sucesso) sucesso(httpRequest.response);
+                } else {
+                    if (erro) erro(httpRequest.status, httpRequest.statusText);
+                }
+            }
+        });
+        
+        httpRequest.send();
+    }
+    
+    //para chamar o método, faça o seguinte
 
+                    
+</script>                                
 </html>
